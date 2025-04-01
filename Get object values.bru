@@ -1,0 +1,48 @@
+meta {
+  name: Get object values
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "items": [
+      {
+        "orderID": "0000001211",
+        "orderInvoiceNo": "1234567",
+        "OrderBlocks": [
+          {
+            "onlLineId": 1,
+            "onlProductCode": "001"   
+          },
+          {
+            "onlLineId": 2,
+            "onlProductCode": "012"   
+          },{
+            "onlLineId": 3,
+            "onlProductCode": "013"   
+          },{
+            "onlLineId": 4,
+            "onlProductCode": "014"   
+          }
+        ]
+      }
+    ]
+  }
+}
+
+tests {
+  test("array of all properties", () => {
+      let jsonData = res.getBody()
+      arrayOfObject = jsonData.data.items[0].OrderBlocks[0];
+  
+      console.log(Object.values(arrayOfObject));
+  
+  });
+}

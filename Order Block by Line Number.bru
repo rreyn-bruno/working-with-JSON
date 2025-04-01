@@ -1,0 +1,54 @@
+meta {
+  name: Order Block by Line Number
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "items": [
+          {
+              "orderID": "0000001211",
+              "orderInvoiceNo": "1234567",
+              "OrderBlocks": [
+                  {
+                      "lineNo": 1,
+                      "productCode": "001"
+                  },
+                  {
+                      "lineNo": 2,
+                      "productCode": "012"
+                  },
+                  {
+                      "lineNo": 3,
+                      "productCode": "013"
+                  },
+                  {
+                      "lineNo": 4,
+                      "productCode": "014"
+                  }
+              ]
+          }
+      ]
+  }
+}
+
+tests {
+  test("Find OrderBlock by lineNo", () => {
+    const jsonData = res.getBody();
+    const blocks = jsonData.items?.[0]?.OrderBlocks;
+  
+    const match = blocks.find(b => b.lineNo === 3);
+  
+    expect(match).to.be.an("object");
+    expect(match.productCode).to.equal("013");
+  });
+  
+  
+}

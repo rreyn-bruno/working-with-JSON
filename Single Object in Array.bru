@@ -1,0 +1,60 @@
+meta {
+  name: Single Object in Array
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "items": [
+      {
+        "orderID": "0000001211",
+        "orderInvoiceNo": "1234567",
+        "OrderBlocks": [
+          {
+            "onlLine": 1,
+            "onlProductCode": "001"   
+          }
+        ]
+      }
+    ]
+  }
+}
+
+tests {
+  test("Order Details are Present", () => {
+    const jsonData = res.getBody();
+  
+    console.log("Response body:", JSON.stringify(jsonData, null, 2));
+  
+    // Check top-level items array
+    expect(jsonData).to.have.property("items");
+    expect(Array.isArray(jsonData.items)).to.equal(true);
+    expect(jsonData.items.length).to.be.greaterThan(0);
+  
+    const firstItem = jsonData.items[0];
+  
+    // Check for expected keys on first item
+    expect(firstItem).to.have.property("orderID");
+    expect(firstItem).to.have.property("orderInvoiceNo");
+    expect(firstItem).to.have.property("OrderBlocks");
+  
+    const orderBlocks = firstItem.OrderBlocks;
+  
+    expect(Array.isArray(orderBlocks)).to.equal(true);
+    expect(orderBlocks.length).to.be.greaterThan(0);
+  
+    const firstBlock = orderBlocks[0];
+  
+    // Check for expected keys inside first OrderBlock
+    expect(firstBlock).to.have.property("onlLine");
+    expect(firstBlock).to.have.property("onlProductCode");
+  });
+  
+}

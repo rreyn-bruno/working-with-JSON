@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Working with JSON - Testing and Access of Arrays and Objects",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

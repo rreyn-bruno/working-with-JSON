@@ -1,0 +1,51 @@
+meta {
+  name: Array of all Properties in Array of Object
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "items": [
+      {
+        "orderID": "0000001211",
+        "orderInvoiceNo": "1234567",
+        "OrderBlocks": [
+          {
+            "lineNo": 1,
+            "productCode": "001"   
+          },
+          {
+            "lineNo": 2,
+            "productCode": "012"   
+          },{
+            "lineNo": 3,
+            "productCode": "013"   
+          },{
+            "lineNo": 4,
+            "productCode": "014"   
+          }
+        ]
+      }
+    ]
+  }
+}
+
+tests {
+  test("OrderBlock has expected lineNo and productCode", () => {
+    const jsonData = res.getBody();
+    const firstBlock = jsonData.items?.[0]?.OrderBlocks?.[0];
+  
+    expect(firstBlock).to.have.property("lineNo");
+    expect(firstBlock).to.have.property("productCode");
+  
+    expect(firstBlock.lineNo).to.equal(1);
+    expect(firstBlock.productCode).to.equal("001");
+  });
+}

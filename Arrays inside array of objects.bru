@@ -1,0 +1,48 @@
+meta {
+  name: Arrays inside array of objects
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "items": [
+      {
+        "orderID": "0000001211",
+        "orderInvoiceNo": "1234567",
+        "OrderBlocks": [
+          {
+            "lineNo": [1,3,4,5],
+            "productCode": "001"   
+          },
+          {
+            "lineNo": [0,6,2,5],
+            "productCode": "012"   
+          }
+        ]
+      }
+    ]
+  }
+}
+
+tests {
+  test("array of all properties", () => {
+      let jsonData = res.getBody()
+      arrayOfObject = jsonData.data.items[0].OrderBlocks;
+  
+      //Accessing Array within array
+      var arrWithinArr = arrayOfObject.map(o => o.lineNo)
+      console.log(arrWithinArr)
+  
+      //optional code
+      //Concating all the array retrieved from arrayOfObject
+      const concatAllArrays = [].concat(...arrWithinArr)
+      console.log(concatAllArrays)
+  });
+}

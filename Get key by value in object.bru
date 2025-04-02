@@ -33,15 +33,21 @@ body:json {
 
 tests {
   test("array of all properties", () => {
-      let jsonData = res.getBody()
-      arrayOfObject = jsonData.data.items[0].OrderBlocks[0];
+    const jsonData = res.getBody();
+    const arrayOfObject = jsonData?.data?.items?.[0]?.OrderBlocks?.[0];
   
-      //function to get key by value [source: https://stackoverflow.com/a/28191966/10232486]
-      function getKeyByValue(object, value) {
-          return Object.keys(object).find(key => object[key] === value);
-      }
+    if (!arrayOfObject) {
+      console.warn("OrderBlocks[0] not found.");
+      return;
+    }
   
-      console.log(getKeyByValue(arrayOfObject, "001"));
+    // Function to get key by value
+    function getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key] === value);
+    }
   
+    const result = getKeyByValue(arrayOfObject, "001");
+    console.log("Key for value '001':", result);
   });
+  
 }

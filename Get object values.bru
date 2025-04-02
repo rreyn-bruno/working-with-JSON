@@ -39,10 +39,23 @@ body:json {
 
 tests {
   test("array of all properties", () => {
-      let jsonData = res.getBody()
-      arrayOfObject = jsonData.data.items[0].OrderBlocks[0];
+    const jsonData = res.getBody();
+    const items = jsonData?.data?.items;
   
-      console.log(Object.values(arrayOfObject));
+    if (!Array.isArray(items) || items.length === 0) {
+      console.warn("No items found.");
+      return;
+    }
   
+    const orderBlocks = items[0]?.OrderBlocks;
+  
+    if (!Array.isArray(orderBlocks) || orderBlocks.length === 0) {
+      console.warn("OrderBlocks is missing or empty.");
+      return;
+    }
+  
+    const values = Object.values(orderBlocks[0]);
+    console.log("Values in first OrderBlock:", values);
   });
+  
 }

@@ -33,12 +33,18 @@ body:json {
 
 tests {
   test("array of all properties", () => {
-      let jsonData = res.getBody()
-      arrayOfObject = jsonData.data.items[0].OrderBlocks;
+    const jsonData = res.getBody();
+    const arrayOfObject = jsonData?.data?.items?.[0]?.OrderBlocks;
   
-      const obj = Object.assign({}, arrayOfObject);
+    if (!Array.isArray(arrayOfObject)) {
+      console.warn("OrderBlocks is not an array.");
+      return;
+    }
   
-      console.log(obj);
+    // Merge all properties of all objects in the array into one flat object
+    const merged = Object.assign({}, ...arrayOfObject);
   
+    console.log("Merged object:", merged);
   });
+  
 }

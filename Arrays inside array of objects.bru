@@ -32,17 +32,14 @@ body:json {
 }
 
 tests {
-  test("array of all properties", () => {
-      let jsonData = res.getBody()
-      arrayOfObject = jsonData.data.items[0].OrderBlocks;
+  test("Flatten all lineNo arrays", () => {
+    const jsonData = res.getBody();
+    const blocks = jsonData.items?.[0]?.OrderBlocks;
   
-      //Accessing Array within array
-      var arrWithinArr = arrayOfObject.map(o => o.lineNo)
-      console.log(arrWithinArr)
+    const allLineNos = blocks.flatMap(b => b.lineNo);
   
-      //optional code
-      //Concating all the array retrieved from arrayOfObject
-      const concatAllArrays = [].concat(...arrWithinArr)
-      console.log(concatAllArrays)
+    console.log("All lineNos:", allLineNos);
+    expect(allLineNos.length).to.be.greaterThan(0);
   });
+  
 }

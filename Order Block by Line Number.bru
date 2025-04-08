@@ -40,15 +40,17 @@ body:json {
 }
 
 tests {
-  test("Find OrderBlock by lineNo", () => {
+  test("OrderBlock has expected lineNo and productCode", () => {
     const jsonData = res.getBody();
-    const blocks = jsonData.items?.[0]?.OrderBlocks;
+    const firstBlock = jsonData.items?.[0]?.OrderBlocks?.[0];
   
-    const match = blocks.find(b => b.lineNo === 3);
+    expect(firstBlock).to.have.property("lineNo");
+    expect(firstBlock).to.have.property("productCode");
   
-    expect(match).to.be.an("object");
-    expect(match.productCode).to.equal("013");
+    expect(firstBlock.lineNo).to.equal(1);
+    expect(firstBlock.productCode).to.equal("001");
   });
+  
   
   
 }

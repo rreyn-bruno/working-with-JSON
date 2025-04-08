@@ -38,24 +38,14 @@ body:json {
 }
 
 tests {
-  test("array of all properties", () => {
+  test("Flatten all lineNo arrays", () => {
     const jsonData = res.getBody();
-    const orderBlock = jsonData?.data?.items?.[0]?.OrderBlocks?.[0];
+    const blocks = jsonData.items?.[0]?.OrderBlocks;
   
-    if (!orderBlock) {
-      console.warn("OrderBlocks[0] not found.");
-      return;
-    }
+    const allLineNos = blocks.flatMap(b => b.lineNo);
   
-    const keysArr = [];
-  
-    for (const property in orderBlock) {
-      if (Object.prototype.hasOwnProperty.call(orderBlock, property)) {
-        keysArr.push(property);
-      }
-    }
-  
-    console.log("Keys in OrderBlocks[0]:", keysArr);
+    console.log("All lineNos:", allLineNos);
+    expect(allLineNos.length).to.be.greaterThan(0);
   });
   
 }
